@@ -36,4 +36,6 @@ ext {
 
     multiDexVersion = '2.0.1'
     workRuntimeVersion = '2.7.1'
+
+    playServicesLocationVersion = '19.0.1'
 }

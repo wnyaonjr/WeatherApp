@@ -105,4 +105,7 @@ dependencies {
 
     implementation "androidx.multidex:multidex:$multiDexVersion"
     implementation "androidx.work:work-runtime-ktx:$workRuntimeVersion"
+
+    //location google play services
+    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 }

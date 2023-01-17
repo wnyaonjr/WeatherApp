@@ -1,5 +1,6 @@
 package com.gcash.weatherapp.features.weather.current.ui.screen
 
+import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gcash.weatherapp.core.network.ResultWrapper
@@ -17,10 +18,26 @@ class CurrentWeatherViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        //TODO get current location
+    }
+
+    fun onLocationUpdate(location: Location?) {
+        if (location != null) {
+            getCurrentWeather(
+                latitude = location.latitude,
+                longitude = location.longitude
+            )
+        } else {
+
+        }
+    }
+
+    private fun getCurrentWeather(
+        latitude: Double,
+        longitude: Double,
+    ) {
         getCurrentWeatherUseCase(
-            latitude = 14.58863808696237,
-            longitude = 121.02249354658818
+            latitude = latitude,
+            longitude = longitude
         ).onEach { wrapper ->
             if (wrapper is ResultWrapper.Success) {
                 handleSuccessGetCurrentWeather(wrapper.value)
