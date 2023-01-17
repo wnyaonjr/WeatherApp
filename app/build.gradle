@@ -108,4 +108,7 @@ dependencies {
 
     //location google play services
     implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
+
+    //date and time formatter
+    implementation "joda-time:joda-time:$jodaTimeVersion"
 }

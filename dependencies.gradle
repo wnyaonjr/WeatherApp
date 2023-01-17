@@ -38,4 +38,6 @@ ext {
     workRuntimeVersion = '2.7.1'
 
     playServicesLocationVersion = '19.0.1'
+
+    jodaTimeVersion = '2.10.4'
 }
