@@ -1,6 +1,6 @@
-package com.gcash.weatherapp.features.weather.current
+package com.gcash.weatherapp.features.weather.shared.domain
 
-import com.gcash.weatherapp.features.weather.local.db.entity.WeatherEntity
+import com.gcash.weatherapp.features.weather.shared.local.db.entity.WeatherEntity
 
 data class Weather(
     val temperature: Double,

@@ -1,7 +1,7 @@
 package com.gcash.weatherapp.core.di
 
 import com.gcash.weatherapp.BuildConfig
-import com.gcash.weatherapp.features.weather.service.WeatherService
+import com.gcash.weatherapp.features.weather.shared.service.WeatherService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

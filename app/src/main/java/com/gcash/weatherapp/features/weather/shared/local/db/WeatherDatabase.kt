@@ -1,9 +1,9 @@
-package com.gcash.weatherapp.features.weather.local.db
+package com.gcash.weatherapp.features.weather.shared.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.gcash.weatherapp.features.weather.local.dao.WeatherDao
-import com.gcash.weatherapp.features.weather.local.db.entity.WeatherEntity
+import com.gcash.weatherapp.features.weather.shared.local.dao.WeatherDao
+import com.gcash.weatherapp.features.weather.shared.local.db.entity.WeatherEntity
 
 /**
  * Database definition which contains movie entity and dao

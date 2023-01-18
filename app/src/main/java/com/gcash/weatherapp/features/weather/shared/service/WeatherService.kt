@@ -1,4 +1,4 @@
-package com.gcash.weatherapp.features.weather.service
+package com.gcash.weatherapp.features.weather.shared.service
 
 import com.gcash.weatherapp.features.weather.current.network.CurrentWeatherResponse
 import retrofit2.http.GET

@@ -4,7 +4,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.gcash.weatherapp.R
-import com.gcash.weatherapp.features.weather.current.Weather
+import com.gcash.weatherapp.features.weather.shared.domain.Weather
 import com.google.android.material.textview.MaterialTextView
 
 @BindingAdapter("weather_location")

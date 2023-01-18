@@ -2,7 +2,7 @@ package com.gcash.weatherapp.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.gcash.weatherapp.features.weather.local.db.WeatherDatabase
+import com.gcash.weatherapp.features.weather.shared.local.db.WeatherDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

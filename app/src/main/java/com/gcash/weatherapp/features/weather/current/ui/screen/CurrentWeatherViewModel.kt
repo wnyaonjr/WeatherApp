@@ -4,11 +4,12 @@ import android.location.Location
 import androidx.lifecycle.*
 import com.gcash.weatherapp.core.network.ResultWrapper
 import com.gcash.weatherapp.core.utils.SingleLiveEvent
-import com.gcash.weatherapp.features.weather.current.Weather
 import com.gcash.weatherapp.features.weather.current.framework.usecases.GetCurrentWeatherUseCase
+import com.gcash.weatherapp.features.weather.shared.domain.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,14 +29,16 @@ class CurrentWeatherViewModel @Inject constructor(
 
     fun onLocationUpdate(location: Location?) {
         location?.let {
-            getCurrentWeather(
-                latitude = location.latitude,
-                longitude = location.longitude
-            )
+            viewModelScope.launch {
+                getCurrentWeather(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                )
+            }
         }
     }
 
-    private fun getCurrentWeather(
+    private suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,
     ) {

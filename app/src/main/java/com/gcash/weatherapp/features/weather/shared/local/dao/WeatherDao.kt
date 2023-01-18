@@ -1,10 +1,10 @@
-package com.gcash.weatherapp.features.weather.local.dao
+package com.gcash.weatherapp.features.weather.shared.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.gcash.weatherapp.features.weather.local.db.entity.WeatherEntity
+import com.gcash.weatherapp.features.weather.shared.local.db.entity.WeatherEntity
 import kotlinx.coroutines.flow.Flow
 
 /**

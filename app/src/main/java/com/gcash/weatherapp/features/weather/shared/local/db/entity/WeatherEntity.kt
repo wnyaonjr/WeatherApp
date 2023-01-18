@@ -1,8 +1,8 @@
-package com.gcash.weatherapp.features.weather.local.db.entity
+package com.gcash.weatherapp.features.weather.shared.local.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.gcash.weatherapp.features.weather.current.Weather
+import com.gcash.weatherapp.features.weather.shared.domain.Weather
 
 /**
  * Class definition of weather for saving in local database
@@ -30,3 +30,7 @@ fun WeatherEntity.toDomainModel() = Weather(
     weatherDescription = weatherDescription,
     weatherIcon = weatherIcon
 )
+
+fun List<WeatherEntity>.toDomainModel() = map {
+    it.toDomainModel()
+}

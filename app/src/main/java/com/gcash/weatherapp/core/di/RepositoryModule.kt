@@ -1,9 +1,9 @@
 package com.gcash.weatherapp.core.di
 
-import com.gcash.weatherapp.features.weather.local.db.WeatherDatabase
-import com.gcash.weatherapp.features.weather.repository.WeatherRepository
-import com.gcash.weatherapp.features.weather.repository.WeatherRepositoryImpl
-import com.gcash.weatherapp.features.weather.service.WeatherService
+import com.gcash.weatherapp.features.weather.shared.local.db.WeatherDatabase
+import com.gcash.weatherapp.features.weather.shared.repository.WeatherRepository
+import com.gcash.weatherapp.features.weather.shared.repository.WeatherRepositoryImpl
+import com.gcash.weatherapp.features.weather.shared.service.WeatherService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

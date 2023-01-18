@@ -1,7 +1,7 @@
 package com.gcash.weatherapp.features.weather.current.network
 
 
-import com.gcash.weatherapp.features.weather.current.Weather
+import com.gcash.weatherapp.features.weather.shared.domain.Weather
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

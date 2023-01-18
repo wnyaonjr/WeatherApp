@@ -1,12 +1,12 @@
-package com.gcash.weatherapp.features.weather.repository
+package com.gcash.weatherapp.features.weather.shared.repository
 
-import com.gcash.weatherapp.features.weather.current.Weather
 import com.gcash.weatherapp.features.weather.current.network.CurrentWeatherResponse
-import com.gcash.weatherapp.features.weather.current.toEntityModel
-import com.gcash.weatherapp.features.weather.local.dao.WeatherDao
-import com.gcash.weatherapp.features.weather.local.db.WeatherDatabase
-import com.gcash.weatherapp.features.weather.local.db.entity.toDomainModel
-import com.gcash.weatherapp.features.weather.service.WeatherService
+import com.gcash.weatherapp.features.weather.shared.domain.Weather
+import com.gcash.weatherapp.features.weather.shared.domain.toEntityModel
+import com.gcash.weatherapp.features.weather.shared.local.dao.WeatherDao
+import com.gcash.weatherapp.features.weather.shared.local.db.WeatherDatabase
+import com.gcash.weatherapp.features.weather.shared.local.db.entity.toDomainModel
+import com.gcash.weatherapp.features.weather.shared.service.WeatherService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,6 +23,8 @@ interface WeatherRepository {
     suspend fun saveWeather(weather: Weather)
 
     fun getLatestWeather(): Flow<Weather?>
+    fun getWeatherHistory(): Flow<List<Weather>>
+    fun getWeatherCount(): Flow<Int>
 }
 
 class WeatherRepositoryImpl(
@@ -53,5 +55,10 @@ class WeatherRepositoryImpl(
     }
 
     override fun getLatestWeather() = weatherDao.getLatest().map { it?.toDomainModel() }
+    override fun getWeatherHistory() = weatherDao.getAll().map {
+        it.toDomainModel()
+    }
+
+    override fun getWeatherCount() = weatherDao.getRowCount()
 
 }
