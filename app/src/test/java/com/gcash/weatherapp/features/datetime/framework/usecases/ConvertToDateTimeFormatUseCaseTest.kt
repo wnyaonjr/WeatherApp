@@ -10,11 +10,16 @@ class ConvertToDateTimeFormatUseCaseTest {
 
     @Test
     fun convert_sunrise_test() {
+
+        val currentTime = 1674052362759L
+        val expected = "10:32 PM"
+
+
         val actual = convertToDateTimeFormatUseCase(
-            input = 1673968853, pattern = ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
+            input = currentTime, pattern = ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
         )
 
-        Assert.assertEquals("08:59 AM", actual)
+        Assert.assertEquals(expected, actual)
 
         //sunrise=1673968853, sunset=1674004530
     }

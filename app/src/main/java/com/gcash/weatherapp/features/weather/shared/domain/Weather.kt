@@ -11,6 +11,7 @@ data class Weather(
     val weatherMain: String?,
     val weatherDescription: String?,
     val weatherIcon: String?,
+    val timestamp: Long,
 ) {
     val iconUrl: String?
         get() = if (weatherIcon != null) {
@@ -26,5 +27,6 @@ fun Weather.toEntityModel() = WeatherEntity(
     city = city,
     weatherMain = weatherMain,
     weatherDescription = weatherDescription,
-    weatherIcon = weatherIcon
+    weatherIcon = weatherIcon,
+    timestamp = timestamp
 )

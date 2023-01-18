@@ -23,8 +23,10 @@ import androidx.fragment.app.viewModels
 import coil.compose.AsyncImage
 import com.gcash.weatherapp.R
 import com.gcash.weatherapp.databinding.FragmentWeatherHistoryBinding
+import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase
 import com.gcash.weatherapp.features.weather.shared.domain.Weather
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Contains the layout for the weather list
@@ -33,6 +35,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class WeatherHistoryFragment : Fragment() {
     private val viewModel: WeatherHistoryViewModel by viewModels()
 
+    @Inject
+    lateinit var convertToDateTimeFormatUseCase: ConvertToDateTimeFormatUseCase
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,24 +45,30 @@ class WeatherHistoryFragment : Fragment() {
     ) = FragmentWeatherHistoryBinding.inflate(inflater, container, false).apply {
         composeView.setContent {
             MaterialTheme {
-                WeatherListLayout(viewModel)
+                WeatherListLayout(viewModel, convertToDateTimeFormatUseCase)
             }
         }
     }.root
 }
 
 @Composable
-fun WeatherListLayout(viewModel: WeatherHistoryViewModel) {
+fun WeatherListLayout(
+    viewModel: WeatherHistoryViewModel,
+    convertToDateTimeFormatUseCase: ConvertToDateTimeFormatUseCase
+) {
     val weatherHistory by viewModel.weatherHistory.observeAsState()
-    WeatherListLayout(weatherHistory)
+    WeatherListLayout(weatherHistory, convertToDateTimeFormatUseCase)
 }
 
 @Composable
-fun WeatherListLayout(weatherHistory: List<Weather>?) {
+fun WeatherListLayout(
+    weatherHistory: List<Weather>?,
+    convertToDateTimeFormatUseCase: ConvertToDateTimeFormatUseCase
+) {
     if (!weatherHistory.isNullOrEmpty()) {
         LazyColumn {
             items(weatherHistory) { weather ->
-                WeatherItemLayout(weather)
+                WeatherItemLayout(weather, convertToDateTimeFormatUseCase)
             }
         }
     } else {
@@ -68,6 +79,7 @@ fun WeatherListLayout(weatherHistory: List<Weather>?) {
 @Composable
 fun WeatherItemLayout(
     weather: Weather,
+    convertToDateTimeFormatUseCase: ConvertToDateTimeFormatUseCase,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -78,7 +90,17 @@ fun WeatherItemLayout(
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
                 text = stringResource(
-                    com.gcash.weatherapp.R.string.weather_location,
+                    R.string.last_update,
+                    convertToDateTimeFormatUseCase(
+                        weather.timestamp,
+                        ConvertToDateTimeFormatUseCase.TIMESTAMP_FORMAT
+                    ).orEmpty()
+                ),
+                style = MaterialTheme.typography.caption,
+            )
+            Text(
+                text = stringResource(
+                    R.string.weather_location,
                     weather.city,
                     weather.country
                 ),

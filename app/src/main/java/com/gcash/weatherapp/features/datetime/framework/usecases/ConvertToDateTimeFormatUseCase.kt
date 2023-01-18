@@ -6,11 +6,14 @@ import javax.inject.Inject
 
 class ConvertToDateTimeFormatUseCase @Inject constructor() {
     operator fun invoke(
-        input: Long,
+        input: Long?,
         pattern: String
-    ): String = DateTimeFormat.forPattern(pattern).print(DateTime(input))
+    ): String? = if (input != null)
+        DateTimeFormat.forPattern(pattern).print(DateTime(input))
+    else null
 
     companion object {
         const val TIME_FORMAT_AM_PM = "hh:mm aa"
+        const val TIMESTAMP_FORMAT = "hh:mm:ss aa"
     }
 }

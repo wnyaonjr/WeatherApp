@@ -18,6 +18,7 @@ data class WeatherEntity(
     val weatherMain: String?,
     val weatherDescription: String?,
     val weatherIcon: String?,
+    val timestamp: Long,
 )
 
 fun WeatherEntity.toDomainModel() = Weather(
@@ -28,7 +29,8 @@ fun WeatherEntity.toDomainModel() = Weather(
     city = city,
     weatherMain = weatherMain,
     weatherDescription = weatherDescription,
-    weatherIcon = weatherIcon
+    weatherIcon = weatherIcon,
+    timestamp = timestamp,
 )
 
 fun List<WeatherEntity>.toDomainModel() = map {

@@ -35,7 +35,7 @@ data class CurrentWeatherResponse(
     val cod: Int
 )
 
-fun CurrentWeatherResponse.toDomainModel() = Weather(
+fun CurrentWeatherResponse.toDomainModel(timestamp: Long) = Weather(
     temperature = main.temp,
     sunrise = sys.sunrise,
     sunset = sys.sunset,
@@ -44,4 +44,5 @@ fun CurrentWeatherResponse.toDomainModel() = Weather(
     weatherMain = weather.firstOrNull()?.main,
     weatherDescription = weather.firstOrNull()?.description,
     weatherIcon = weather.firstOrNull()?.icon,
+    timestamp = timestamp
 )

@@ -64,6 +64,18 @@
                 app:weather_info="@{viewModel.weather}"
                 tools:text="Clear (clear sky)" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lastUpdate"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/weatherIcon"
+                app:layout_constraintStart_toStartOf="@+id/weatherIcon"
+                app:layout_constraintTop_toBottomOf="@+id/info"
+                app:weather_last_update="@{viewModel.timestamp}"
+                tools:text="Last update: 10:58 PM" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -4,6 +4,8 @@ import android.location.Location
 import androidx.lifecycle.*
 import com.gcash.weatherapp.core.network.ResultWrapper
 import com.gcash.weatherapp.core.utils.SingleLiveEvent
+import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase
+import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase.Companion.TIMESTAMP_FORMAT
 import com.gcash.weatherapp.features.weather.current.framework.usecases.GetCurrentWeatherUseCase
 import com.gcash.weatherapp.features.weather.shared.domain.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,10 +17,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor(
-    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase
+    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
+    private val convertToDateTimeFormatUseCase: ConvertToDateTimeFormatUseCase
 ) : ViewModel() {
 
     val weather: LiveData<Weather?> = getCurrentWeatherUseCase().asLiveData()
+    val timestamp: LiveData<String?> = Transformations.map(weather) {
+        convertToDateTimeFormatUseCase(it?.timestamp, TIMESTAMP_FORMAT)
+    }
 
     private val _refresh = SingleLiveEvent<Unit>()
     val refresh: LiveData<Unit> = _refresh

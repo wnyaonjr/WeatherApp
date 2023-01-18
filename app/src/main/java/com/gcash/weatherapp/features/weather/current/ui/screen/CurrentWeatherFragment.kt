@@ -9,9 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.gcash.weatherapp.databinding.FragmentCurrentWeatherBinding
-import com.gcash.weatherapp.features.location.framework.usecases.CheckLocationAccessUseCase
-import com.gcash.weatherapp.features.location.framework.usecases.GetCurrentLocationUseCase
-import com.gcash.weatherapp.features.location.framework.usecases.GetLocationPermissionUseCase
+import com.gcash.weatherapp.features.weather.current.framework.usecases.CurrentWeatherUseCases
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,13 +24,7 @@ class CurrentWeatherFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     @Inject
-    lateinit var checkLocationAccessUseCase: CheckLocationAccessUseCase
-
-    @Inject
-    lateinit var getCurrentLocationUseCase: GetCurrentLocationUseCase
-
-    @Inject
-    lateinit var getLocationPermissionUseCase: GetLocationPermissionUseCase
+    lateinit var currentWeatherUseCases: CurrentWeatherUseCases
 
     private val locationRequestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -78,7 +70,7 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun checkLocationPermission() {
-        if (getLocationPermissionUseCase(requireContext())) {
+        if (currentWeatherUseCases.getLocationPermissionUseCase(requireContext())) {
             handleLocationPermissionGranted()
         } else {
             locationRequestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -86,7 +78,7 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun handleLocationPermissionGranted() {
-        if (checkLocationAccessUseCase(requireContext())) {
+        if (currentWeatherUseCases.checkLocationAccessUseCase(requireContext())) {
             getCurrentLocation()
         } else {
             //TODO location handling error
@@ -94,7 +86,7 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun getCurrentLocation() {
-        getCurrentLocationUseCase(
+        currentWeatherUseCases.getCurrentLocationUseCase(
             fusedLocationClient = fusedLocationClient,
             locationListener = viewModel::onLocationUpdate
         )

@@ -51,3 +51,17 @@ fun bindWeatherIcon(textView: MaterialTextView, weather: Weather?) {
         }
     }
 }
+
+@BindingAdapter("weather_last_update")
+fun bindWeatherLastUpdate(textView: MaterialTextView, timestamp: String?) {
+    textView.apply {
+        if (timestamp != null) {
+            text = resources.getString(
+                R.string.last_update,
+                timestamp
+            )
+        } else {
+            setText(R.string.indeterminate_placeholder)
+        }
+    }
+}
