@@ -4,7 +4,7 @@ import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gcash.weatherapp.core.network.ResultWrapper
-import com.gcash.weatherapp.features.weather.current.CurrentWeather
+import com.gcash.weatherapp.features.weather.current.Weather
 import com.gcash.weatherapp.features.weather.current.framework.usecases.GetCurrentWeatherUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -45,7 +45,7 @@ class CurrentWeatherViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun handleSuccessGetCurrentWeather(currentWeather: CurrentWeather) {
-        Timber.d("$currentWeather")
+    private fun handleSuccessGetCurrentWeather(weather: Weather) {
+        Timber.d("$weather")
     }
 }

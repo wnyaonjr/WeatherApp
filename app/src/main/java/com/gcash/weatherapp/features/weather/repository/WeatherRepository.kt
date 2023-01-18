@@ -1,7 +1,13 @@
 package com.gcash.weatherapp.features.weather.repository
 
+import com.gcash.weatherapp.features.weather.current.Weather
 import com.gcash.weatherapp.features.weather.current.network.CurrentWeatherResponse
+import com.gcash.weatherapp.features.weather.current.toEntityModel
+import com.gcash.weatherapp.features.weather.local.dao.WeatherDao
+import com.gcash.weatherapp.features.weather.local.db.WeatherDatabase
 import com.gcash.weatherapp.features.weather.service.WeatherService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 interface WeatherRepository {
     suspend fun getCurrentWeather(
@@ -10,11 +16,19 @@ interface WeatherRepository {
         apiKey: String,
         units: String,
     ): CurrentWeatherResponse
+
+    suspend fun saveWeather(weather: Weather)
 }
 
 class WeatherRepositoryImpl(
-    private val weatherService: WeatherService
+    private val weatherService: WeatherService,
+    private val weatherDatabase: WeatherDatabase
 ) : WeatherRepository {
+
+    private val weatherDao: WeatherDao by lazy {
+        weatherDatabase.weatherDao()
+    }
+
     override suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,
@@ -26,5 +40,11 @@ class WeatherRepositoryImpl(
         apiKey = apiKey,
         units = units
     )
+
+    override suspend fun saveWeather(weather: Weather) {
+        withContext(Dispatchers.IO) {
+            weatherDao.insertAll(weather.toEntityModel())
+        }
+    }
 
 }

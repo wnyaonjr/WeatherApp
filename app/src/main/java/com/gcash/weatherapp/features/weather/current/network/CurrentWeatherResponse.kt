@@ -1,7 +1,7 @@
 package com.gcash.weatherapp.features.weather.current.network
 
 
-import com.gcash.weatherapp.features.weather.current.CurrentWeather
+import com.gcash.weatherapp.features.weather.current.Weather
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -35,10 +35,13 @@ data class CurrentWeatherResponse(
     val cod: Int
 )
 
-fun CurrentWeatherResponse.toDomainModel() = CurrentWeather(
+fun CurrentWeatherResponse.toDomainModel() = Weather(
     temperature = main.temp,
     sunrise = sys.sunrise,
     sunset = sys.sunset,
     country = sys.country,
-    city = name
+    city = name,
+    weatherMain = weather.firstOrNull()?.main,
+    weatherDescription = weather.firstOrNull()?.description,
+    weatherIcon = weather.firstOrNull()?.icon,
 )

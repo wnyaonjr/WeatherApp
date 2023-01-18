@@ -20,7 +20,9 @@ class GetCurrentWeatherUseCase @Inject constructor(private val weatherRepository
             longitude = longitude,
             apiKey = apiKey,
             units = units
-        ).toDomainModel()
+        ).toDomainModel().apply {
+            weatherRepository.saveWeather(this)
+        }
     }
 
     companion object {

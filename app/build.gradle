@@ -25,6 +25,12 @@ android {
 
         buildConfigField "String", "API_KEY", "\"${localProps.getProperty('API_KEY')}\""
 
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
+
     }
 
     buildTypes {
@@ -79,7 +85,9 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$composeVersion"
     implementation "androidx.constraintlayout:constraintlayout-compose:$constraintlayoutComposeVersion"
     debugImplementation "androidx.compose.ui:ui-tooling:$composeVersion"
-    implementation "com.google.accompanist:accompanist-swiperefresh:$composeSwipeRefreshVersion"// Moshi
+    implementation "com.google.accompanist:accompanist-swiperefresh:$composeSwipeRefreshVersion"
+
+    // Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
 
     //Retrofit 2

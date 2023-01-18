@@ -1,5 +1,6 @@
 package com.gcash.weatherapp.core.di
 
+import com.gcash.weatherapp.features.weather.local.db.WeatherDatabase
 import com.gcash.weatherapp.features.weather.repository.WeatherRepository
 import com.gcash.weatherapp.features.weather.repository.WeatherRepositoryImpl
 import com.gcash.weatherapp.features.weather.service.WeatherService
@@ -17,9 +18,11 @@ object RepositoryModule {
 
     @Provides
     fun provideWeatherRepository(
-        weatherService: WeatherService
+        weatherService: WeatherService,
+        weatherDatabase: WeatherDatabase
     ): WeatherRepository =
         WeatherRepositoryImpl(
-            weatherService
+            weatherService,
+            weatherDatabase
         )
 }
