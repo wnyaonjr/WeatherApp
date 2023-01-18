@@ -40,4 +40,6 @@ ext {
     playServicesLocationVersion = '19.0.1'
 
     jodaTimeVersion = '2.10.4'
+
+    glideVersion = '4.11.0'
 }

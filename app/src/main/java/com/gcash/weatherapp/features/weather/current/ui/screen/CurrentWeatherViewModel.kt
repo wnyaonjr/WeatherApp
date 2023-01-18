@@ -1,9 +1,9 @@
 package com.gcash.weatherapp.features.weather.current.ui.screen
 
 import android.location.Location
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.gcash.weatherapp.core.network.ResultWrapper
+import com.gcash.weatherapp.core.utils.SingleLiveEvent
 import com.gcash.weatherapp.features.weather.current.Weather
 import com.gcash.weatherapp.features.weather.current.framework.usecases.GetCurrentWeatherUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,17 +17,21 @@ class CurrentWeatherViewModel @Inject constructor(
     private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase
 ) : ViewModel() {
 
-    init {
-    }
+    val weather: LiveData<Weather?> = getCurrentWeatherUseCase().asLiveData()
+
+    private val _refresh = SingleLiveEvent<Unit>()
+    val refresh: LiveData<Unit> = _refresh
+
+
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
 
     fun onLocationUpdate(location: Location?) {
-        if (location != null) {
+        location?.let {
             getCurrentWeather(
                 latitude = location.latitude,
                 longitude = location.longitude
             )
-        } else {
-
         }
     }
 
@@ -42,10 +46,38 @@ class CurrentWeatherViewModel @Inject constructor(
             if (wrapper is ResultWrapper.Success) {
                 handleSuccessGetCurrentWeather(wrapper.value)
             }
+            handleResult(wrapper)
         }.launchIn(viewModelScope)
     }
 
     private fun handleSuccessGetCurrentWeather(weather: Weather) {
         Timber.d("$weather")
     }
+
+    fun onRefresh() {
+        _refresh.call()
+    }
+
+    private fun handleResult(resultWrapper: ResultWrapper<*>) {
+        when (resultWrapper) {
+            is ResultWrapper.Error -> handleError()
+            is ResultWrapper.Loading -> handleLoading()
+            is ResultWrapper.Success -> handleSuccess()
+        }
+    }
+
+    private fun handleLoading() {
+        _isLoading.value = true
+    }
+
+    private fun handleSuccess() {
+        _isLoading.value = false
+    }
+
+    private fun handleError() {
+        _isLoading.value = false
+
+        //TODO display error message
+    }
+
 }

@@ -25,6 +25,8 @@ class GetCurrentWeatherUseCase @Inject constructor(private val weatherRepository
         }
     }
 
+    operator fun invoke() = weatherRepository.getLatestWeather()
+
     companion object {
         private const val DEFAULT_UNITS = "metric"
     }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="indeterminate_placeholder">-</string>
+    <string name="weather_location">%s, %s</string>
+    <string name="weather_temperature">%.2f \u2103</string>
+    <string name="weather_info">%s (%s)</string>
 </resources>

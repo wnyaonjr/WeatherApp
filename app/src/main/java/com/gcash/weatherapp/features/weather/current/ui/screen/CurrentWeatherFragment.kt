@@ -60,6 +60,15 @@ class CurrentWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        initObservers()
+        checkLocationPermission()
+    }
+
+    private fun initObservers() {
+        viewModel.refresh.observe(viewLifecycleOwner, ::handleRefresh)
+    }
+
+    private fun handleRefresh(unit: Unit?) {
         checkLocationPermission()
     }
 

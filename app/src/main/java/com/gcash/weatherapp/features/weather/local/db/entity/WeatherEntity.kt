@@ -2,6 +2,7 @@ package com.gcash.weatherapp.features.weather.local.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.gcash.weatherapp.features.weather.current.Weather
 
 /**
  * Class definition of weather for saving in local database
@@ -17,4 +18,15 @@ data class WeatherEntity(
     val weatherMain: String?,
     val weatherDescription: String?,
     val weatherIcon: String?,
+)
+
+fun WeatherEntity.toDomainModel() = Weather(
+    temperature = temperature,
+    sunrise = sunrise,
+    sunset = sunset,
+    country = country,
+    city = city,
+    weatherMain = weatherMain,
+    weatherDescription = weatherDescription,
+    weatherIcon = weatherIcon
 )

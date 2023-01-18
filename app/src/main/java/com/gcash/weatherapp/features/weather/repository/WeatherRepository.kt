@@ -5,8 +5,11 @@ import com.gcash.weatherapp.features.weather.current.network.CurrentWeatherRespo
 import com.gcash.weatherapp.features.weather.current.toEntityModel
 import com.gcash.weatherapp.features.weather.local.dao.WeatherDao
 import com.gcash.weatherapp.features.weather.local.db.WeatherDatabase
+import com.gcash.weatherapp.features.weather.local.db.entity.toDomainModel
 import com.gcash.weatherapp.features.weather.service.WeatherService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 interface WeatherRepository {
@@ -18,6 +21,8 @@ interface WeatherRepository {
     ): CurrentWeatherResponse
 
     suspend fun saveWeather(weather: Weather)
+
+    fun getLatestWeather(): Flow<Weather?>
 }
 
 class WeatherRepositoryImpl(
@@ -46,5 +51,7 @@ class WeatherRepositoryImpl(
             weatherDao.insertAll(weather.toEntityModel())
         }
     }
+
+    override fun getLatestWeather() = weatherDao.getLatest().map { it?.toDomainModel() }
 
 }

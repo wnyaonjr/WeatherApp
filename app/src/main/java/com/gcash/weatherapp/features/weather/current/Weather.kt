@@ -11,7 +11,12 @@ data class Weather(
     val weatherMain: String?,
     val weatherDescription: String?,
     val weatherIcon: String?,
-)
+) {
+    val iconUrl: String?
+        get() = if (weatherIcon != null) {
+            "https://openweathermap.org/img/wn/$weatherIcon@2x.png"
+        } else null
+}
 
 fun Weather.toEntityModel() = WeatherEntity(
     temperature = temperature,

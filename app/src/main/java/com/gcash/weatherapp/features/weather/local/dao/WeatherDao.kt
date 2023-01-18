@@ -25,5 +25,5 @@ interface WeatherDao {
     fun getRowCount(): Flow<Int>
 
     @Query("SELECT * FROM table_weather ORDER BY id DESC LIMIT 1")
-    fun getLatest(): Flow<List<WeatherEntity>>
+    fun getLatest(): Flow<WeatherEntity?>
 }

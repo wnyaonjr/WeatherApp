@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,15 +10,61 @@
             type="com.gcash.weatherapp.features.weather.current.ui.screen.CurrentWeatherViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".features.weather.current.ui.screen.CurrentWeatherFragment">
+        app:onRefreshListener="@{() -> viewModel.onRefresh()}"
+        app:refreshing="@{viewModel.isLoading}">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Hello" />
+            tools:context=".features.weather.current.ui.screen.CurrentWeatherFragment">
 
-    </FrameLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/currentLocation"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:weather_location="@{viewModel.weather}"
+                tools:text="Sta Ana Manila, PH" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/temperature"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/currentLocation"
+                app:layout_constraintStart_toStartOf="@+id/currentLocation"
+                app:layout_constraintTop_toBottomOf="@+id/currentLocation"
+                app:weather_temperature="@{viewModel.weather.temperature}"
+                tools:text="32\u2103" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/weatherIcon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:layout_constraintEnd_toEndOf="@+id/temperature"
+                app:layout_constraintStart_toStartOf="@+id/temperature"
+                app:layout_constraintTop_toBottomOf="@+id/temperature"
+                app:weather_icon="@{viewModel.weather.iconUrl}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/info"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/weatherIcon"
+                app:layout_constraintStart_toStartOf="@+id/weatherIcon"
+                app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
+                app:weather_info="@{viewModel.weather}"
+                tools:text="Clear (clear sky)" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </layout>
