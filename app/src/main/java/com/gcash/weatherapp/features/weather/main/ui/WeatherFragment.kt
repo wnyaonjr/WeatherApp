@@ -31,6 +31,7 @@ class WeatherFragment : Fragment() {
 
     private fun initViewPager() {
         val viewPager = binding.viewPager
+        viewPager.isUserInputEnabled = false
         viewPager.adapter = WeatherAdapter(this)
 
         TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
