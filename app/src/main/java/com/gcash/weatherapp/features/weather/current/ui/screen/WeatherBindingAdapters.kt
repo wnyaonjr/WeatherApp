@@ -52,6 +52,34 @@ fun bindWeatherIcon(textView: MaterialTextView, weather: Weather?) {
     }
 }
 
+@BindingAdapter("weather_sunrise")
+fun bindWeatherSunrise(textView: MaterialTextView, sunrise: String?) {
+    textView.apply {
+        if (sunrise != null) {
+            text = resources.getString(
+                R.string.sunrise,
+                sunrise
+            )
+        } else {
+            setText(R.string.indeterminate_placeholder)
+        }
+    }
+}
+
+@BindingAdapter("weather_sunset")
+fun bindWeatherSunset(textView: MaterialTextView, sunset: String?) {
+    textView.apply {
+        if (sunset != null) {
+            text = resources.getString(
+                R.string.sunset,
+                sunset
+            )
+        } else {
+            setText(R.string.indeterminate_placeholder)
+        }
+    }
+}
+
 @BindingAdapter("weather_last_update")
 fun bindWeatherLastUpdate(textView: MaterialTextView, timestamp: String?) {
     textView.apply {

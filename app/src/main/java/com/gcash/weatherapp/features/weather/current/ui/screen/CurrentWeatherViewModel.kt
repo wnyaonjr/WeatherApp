@@ -4,9 +4,9 @@ import android.location.Location
 import androidx.lifecycle.*
 import com.gcash.weatherapp.core.network.ResultWrapper
 import com.gcash.weatherapp.core.utils.SingleLiveEvent
-import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase
 import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase.Companion.TIMESTAMP_FORMAT
-import com.gcash.weatherapp.features.weather.current.framework.usecases.GetCurrentWeatherUseCase
+import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase.Companion.TIME_FORMAT_AM_PM
+import com.gcash.weatherapp.features.weather.current.framework.usecases.CurrentWeatherUseCases
 import com.gcash.weatherapp.features.weather.shared.domain.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -17,13 +17,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor(
-    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
-    private val convertToDateTimeFormatUseCase: ConvertToDateTimeFormatUseCase
+    private val currentWeatherUseCases: CurrentWeatherUseCases,
 ) : ViewModel() {
 
-    val weather: LiveData<Weather?> = getCurrentWeatherUseCase().asLiveData()
+    val weather: LiveData<Weather?> = currentWeatherUseCases.getCurrentWeatherUseCase().asLiveData()
     val timestamp: LiveData<String?> = Transformations.map(weather) {
-        convertToDateTimeFormatUseCase(it?.timestamp, TIMESTAMP_FORMAT)
+        currentWeatherUseCases.convertToDateTimeFormatUseCase(it?.timestamp, TIMESTAMP_FORMAT)
+    }
+    val sunrise: LiveData<String?> = Transformations.map(weather) {
+        currentWeatherUseCases.convertUnixToDateTimeFormatUseCase(it?.sunrise, TIME_FORMAT_AM_PM)
+    }
+    val sunset: LiveData<String?> = Transformations.map(weather) {
+        currentWeatherUseCases.convertUnixToDateTimeFormatUseCase(it?.sunset, TIME_FORMAT_AM_PM)
     }
 
     private val _refresh = SingleLiveEvent<Unit>()
@@ -48,7 +53,7 @@ class CurrentWeatherViewModel @Inject constructor(
         latitude: Double,
         longitude: Double,
     ) {
-        getCurrentWeatherUseCase(
+        currentWeatherUseCases.getCurrentWeatherUseCase(
             latitude = latitude,
             longitude = longitude
         ).onEach { wrapper ->
