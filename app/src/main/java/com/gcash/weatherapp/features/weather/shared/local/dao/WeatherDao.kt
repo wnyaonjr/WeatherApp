@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface WeatherDao {
-    @Query("SELECT * FROM table_weather")
+    @Query("SELECT * FROM table_weather ORDER BY id DESC")
     fun getAll(): Flow<List<WeatherEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -20,9 +20,6 @@ interface WeatherDao {
 
     @Query("DELETE from table_weather")
     fun delete()
-
-    @Query("SELECT COUNT(id) FROM table_weather")
-    fun getRowCount(): Flow<Int>
 
     @Query("SELECT * FROM table_weather ORDER BY id DESC LIMIT 1")
     fun getLatest(): Flow<WeatherEntity?>

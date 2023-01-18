@@ -24,7 +24,6 @@ interface WeatherRepository {
 
     fun getLatestWeather(): Flow<Weather?>
     fun getWeatherHistory(): Flow<List<Weather>>
-    fun getWeatherCount(): Flow<Int>
 }
 
 class WeatherRepositoryImpl(
@@ -55,10 +54,8 @@ class WeatherRepositoryImpl(
     }
 
     override fun getLatestWeather() = weatherDao.getLatest().map { it?.toDomainModel() }
+
     override fun getWeatherHistory() = weatherDao.getAll().map {
         it.toDomainModel()
     }
-
-    override fun getWeatherCount() = weatherDao.getRowCount()
-
 }

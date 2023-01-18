@@ -4,4 +4,6 @@
     <string name="weather_location">%s, %s</string>
     <string name="weather_temperature">%.2f \u2103</string>
     <string name="weather_info">%s (%s)</string>
+    <string name="current_weather">Current Weather</string>
+    <string name="history">History</string>
 </resources>
