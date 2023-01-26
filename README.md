@@ -18,6 +18,3 @@ Jetpack compose was used for the weather history list to showcase enthusiasm in 
 ## How to use Openweather API key
 Create an API_KEY value in local.properties file i.e.
 API_KEY=123456789
-
-## Limitation
-Need to improve on error case handling
