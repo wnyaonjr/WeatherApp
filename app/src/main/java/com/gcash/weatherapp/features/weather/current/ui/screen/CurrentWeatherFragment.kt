@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.gcash.weatherapp.R
 import com.gcash.weatherapp.databinding.FragmentCurrentWeatherBinding
 import com.gcash.weatherapp.features.weather.current.framework.usecases.CurrentWeatherUseCases
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -58,6 +59,14 @@ class CurrentWeatherFragment : Fragment() {
 
     private fun initObservers() {
         viewModel.refresh.observe(viewLifecycleOwner, ::handleRefresh)
+        viewModel.resultError.observe(viewLifecycleOwner, ::handleResultError)
+    }
+
+    private fun handleResultError(unit: Unit?) {
+        currentWeatherUseCases.showSnackBarUseCase(
+            view = binding.root,
+            message = R.string.request_error
+        )
     }
 
     private fun handleRefresh(unit: Unit?) {

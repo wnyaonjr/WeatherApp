@@ -9,4 +9,5 @@
     <string name="timestamp">Timestamp: %s</string>
     <string name="sunrise">Sunrise: %s</string>
     <string name="sunset">Sunset: %s</string>
+    <string name="request_error">Something went wrong, please try again later.</string>
 </resources>

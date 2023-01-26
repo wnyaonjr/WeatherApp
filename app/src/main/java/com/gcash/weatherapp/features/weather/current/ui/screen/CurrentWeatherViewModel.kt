@@ -34,9 +34,12 @@ class CurrentWeatherViewModel @Inject constructor(
     private val _refresh = SingleLiveEvent<Unit>()
     val refresh: LiveData<Unit> = _refresh
 
-
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _resultError = SingleLiveEvent<Unit>()
+    val resultError: LiveData<Unit>
+        get() = _resultError
 
     fun onLocationUpdate(location: Location?) {
         location?.let {
@@ -90,8 +93,7 @@ class CurrentWeatherViewModel @Inject constructor(
 
     private fun handleError() {
         _isLoading.value = false
-
-        //TODO display error message
+        _resultError.call()
     }
 
 }
