@@ -1,5 +1,6 @@
 package com.gcash.weatherapp.features.weather.current.framework.usecases
 
+import com.gcash.weatherapp.core.framework.OpenApplicationSettingsUseCase
 import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase
 import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertUnixToDateTimeFormatUseCase
 import com.gcash.weatherapp.features.location.framework.usecases.CheckLocationAccessUseCase
@@ -20,4 +21,5 @@ class CurrentWeatherUseCases @Inject constructor(
     val showSnackBarUseCase: ShowSnackBarUseCase,
     val displayConfirmationDialogUseCase: DisplayConfirmationDialogUseCase,
     val openLocationSourceSettingsUseCase: OpenLocationSourceSettingsUseCase,
+    val openApplicationSettingsUseCase: OpenApplicationSettingsUseCase,
 )

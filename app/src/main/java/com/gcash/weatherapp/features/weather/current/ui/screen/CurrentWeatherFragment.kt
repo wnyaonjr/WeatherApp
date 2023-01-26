@@ -32,7 +32,15 @@ class CurrentWeatherFragment : Fragment() {
             if (isGranted) {
                 handleLocationPermissionGranted()
             } else {
-                //TODO display location access error
+                currentWeatherUseCases.displayConfirmationDialogUseCase(
+                    context = requireContext(),
+                    title = R.string.enable_share_location_title,
+                    message = R.string.enable_location_permission_msg,
+                    confirmLabel = R.string.settings,
+                    onConfirm = {
+                        currentWeatherUseCases.openApplicationSettingsUseCase()
+                    }
+                )
             }
         }
 
