@@ -21,6 +21,10 @@ class CurrentWeatherViewModel @Inject constructor(
 ) : ViewModel() {
 
     val weather: LiveData<Weather?> = currentWeatherUseCases.getCurrentWeatherUseCase().asLiveData()
+    val withWeather: LiveData<Boolean> = Transformations.map(weather) {
+        it != null
+    }
+
     val timestamp: LiveData<String?> = Transformations.map(weather) {
         currentWeatherUseCases.convertToDateTimeFormatUseCase(it?.timestamp, TIMESTAMP_FORMAT)
     }
