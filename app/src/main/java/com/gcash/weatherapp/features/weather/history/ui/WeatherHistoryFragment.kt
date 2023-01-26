@@ -3,9 +3,12 @@ package com.gcash.weatherapp.features.weather.history.ui
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -15,6 +18,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -75,7 +79,7 @@ fun WeatherListLayout(
             }
         }
     } else {
-        //TODO display empty screen
+        NoWeatherHistoryDisplay()
     }
 }
 
@@ -189,6 +193,33 @@ fun WeatherInformationLayout(weather: Weather) {
 }
 
 /**
+ * layout when no weather history found
+ */
+@Composable
+fun NoWeatherHistoryDisplay() {
+    Column(
+        modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_no_weather),
+            contentDescription = null,
+            modifier = Modifier.size(48.dp)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = stringResource(R.string.no_weather_history),
+            style = MaterialTheme.typography.subtitle1,
+            color = colorResource(R.color.black),
+        )
+    }
+}
+
+/**
  * Test function for current weather as an item list
  */
 @Preview
@@ -295,6 +326,19 @@ fun WeatherSunriseSunsetLayoutPreview() {
                 )
             )
         )
+    }
+}
+
+
+
+/**
+ * Test function when no weather history display
+ */
+@Preview
+@Composable
+fun NoWeatherHistoryDisplayPreview() {
+    MaterialTheme {
+        NoWeatherHistoryDisplay()
     }
 }
 
