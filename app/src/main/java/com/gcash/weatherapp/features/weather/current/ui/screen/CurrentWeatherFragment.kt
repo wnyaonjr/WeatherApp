@@ -32,14 +32,8 @@ class CurrentWeatherFragment : Fragment() {
             if (isGranted) {
                 handleLocationPermissionGranted()
             } else {
-                currentWeatherUseCases.displayConfirmationDialogUseCase(
-                    context = requireContext(),
-                    title = R.string.enable_share_location_title,
-                    message = R.string.enable_location_permission_msg,
-                    confirmLabel = R.string.settings,
-                    onConfirm = {
-                        currentWeatherUseCases.openApplicationSettingsUseCase()
-                    }
+                currentWeatherUseCases.displayLocationPermissionDialogUseCase(
+                    context = requireContext()
                 )
             }
         }
@@ -98,14 +92,8 @@ class CurrentWeatherFragment : Fragment() {
         if (currentWeatherUseCases.checkLocationAccessUseCase(requireContext())) {
             getCurrentLocation()
         } else {
-            currentWeatherUseCases.displayConfirmationDialogUseCase(
+            currentWeatherUseCases.displayLocationServicesDialogUseCase(
                 context = requireContext(),
-                title = R.string.enable_share_location_title,
-                message = R.string.enable_share_location_msg,
-                confirmLabel = R.string.settings,
-                onConfirm = {
-                    currentWeatherUseCases.openLocationSourceSettingsUseCase()
-                }
             )
         }
     }
