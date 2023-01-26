@@ -96,4 +96,8 @@ class CurrentWeatherViewModel @Inject constructor(
         _resultError.call()
     }
 
+    fun stopLoading() {
+        _isLoading.value = false
+    }
+
 }

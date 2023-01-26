@@ -32,9 +32,7 @@ class CurrentWeatherFragment : Fragment() {
             if (isGranted) {
                 handleLocationPermissionGranted()
             } else {
-                currentWeatherUseCases.displayLocationPermissionDialogUseCase(
-                    context = requireContext()
-                )
+                handleNoLocationPermission()
             }
         }
 
@@ -92,10 +90,22 @@ class CurrentWeatherFragment : Fragment() {
         if (currentWeatherUseCases.checkLocationAccessUseCase(requireContext())) {
             getCurrentLocation()
         } else {
-            currentWeatherUseCases.displayLocationServicesDialogUseCase(
-                context = requireContext(),
-            )
+            handleNoLocationAccess()
         }
+    }
+
+    private fun handleNoLocationAccess() {
+        viewModel.stopLoading()
+        currentWeatherUseCases.displayLocationServicesDialogUseCase(
+            context = requireContext(),
+        )
+    }
+
+    private fun handleNoLocationPermission() {
+        viewModel.stopLoading()
+        currentWeatherUseCases.displayLocationPermissionDialogUseCase(
+            context = requireContext()
+        )
     }
 
     private fun getCurrentLocation() {
