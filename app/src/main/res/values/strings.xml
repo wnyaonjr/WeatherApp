@@ -10,4 +10,7 @@
     <string name="sunrise">Sunrise: %s</string>
     <string name="sunset">Sunset: %s</string>
     <string name="request_error">Something went wrong, please try again later.</string>
+    <string name="enable_share_location_title">Enable Sharing of Location</string>
+    <string name="enable_share_location_msg">WeatherApp needs to access to your location. Please turn on Location Services in your settings.</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -90,7 +90,15 @@ class CurrentWeatherFragment : Fragment() {
         if (currentWeatherUseCases.checkLocationAccessUseCase(requireContext())) {
             getCurrentLocation()
         } else {
-            //TODO location handling error
+            currentWeatherUseCases.displayConfirmationDialogUseCase(
+                context = requireContext(),
+                title = R.string.enable_share_location_title,
+                message = R.string.enable_share_location_msg,
+                confirmLabel = R.string.settings,
+                onConfirm = {
+                    currentWeatherUseCases.openLocationSourceSettingsUseCase()
+                }
+            )
         }
     }
 
