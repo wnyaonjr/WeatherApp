@@ -85,7 +85,7 @@ fun bindWeatherLastUpdate(textView: MaterialTextView, timestamp: String?) {
     textView.apply {
         if (timestamp != null) {
             text = resources.getString(
-                R.string.last_update,
+                R.string.timestamp,
                 timestamp
             )
         } else {

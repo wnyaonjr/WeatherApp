@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +25,7 @@ import coil.compose.AsyncImage
 import com.gcash.weatherapp.R
 import com.gcash.weatherapp.databinding.FragmentWeatherHistoryBinding
 import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertToDateTimeFormatUseCase
+import com.gcash.weatherapp.features.datetime.framework.usecases.ConvertUnixToDateTimeFormatUseCase
 import com.gcash.weatherapp.features.weather.history.framework.usecases.WeatherHistoryUseCases
 import com.gcash.weatherapp.features.weather.shared.domain.Weather
 import dagger.hilt.android.AndroidEntryPoint
@@ -89,76 +91,210 @@ fun WeatherItemLayout(
             .padding(8.dp)
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            Text(
-                text = stringResource(
-                    R.string.last_update,
-                    weatherHistoryUseCases.convertToDateTimeFormatUseCase(
-                        weather.timestamp,
-                        ConvertToDateTimeFormatUseCase.TIMESTAMP_FORMAT
-                    ).orEmpty()
-                ),
-                style = MaterialTheme.typography.caption,
-            )
-            Text(
-                text = stringResource(
-                    R.string.weather_location,
-                    weather.city,
-                    weather.country
-                ),
-                style = MaterialTheme.typography.h6,
-            )
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-
-                AsyncImage(
-                    modifier = Modifier.size(48.dp),
-                    model = weather.iconUrl,
-                    contentDescription = null,
-                    error = painterResource(R.drawable.ic_broken_image),
-                    contentScale = ContentScale.Crop
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Column(modifier = Modifier.weight(1f, fill = true)) {
-                    Text(
-                        text = stringResource(R.string.weather_temperature, weather.temperature),
-                        style = MaterialTheme.typography.subtitle1,
-                    )
-                    Text(
-                        text = stringResource(
-                            R.string.weather_info,
-                            weather.weatherMain.orEmpty(),
-                            weather.weatherDescription.orEmpty()
-                        ),
-                        style = MaterialTheme.typography.subtitle1,
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
-
-            Text(
-                text = stringResource(
-                    R.string.sunrise,
-                    weatherHistoryUseCases.convertUnixToDateTimeFormatUseCase(
-                        weather.sunrise,
-                        ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
-                    ).orEmpty()
-                ),
-                style = MaterialTheme.typography.caption,
-            )
-            Text(
-                text = stringResource(
-                    R.string.sunset,
-                    weatherHistoryUseCases.convertUnixToDateTimeFormatUseCase(
-                        weather.sunset,
-                        ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
-                    ).orEmpty()
-                ),
-                style = MaterialTheme.typography.caption,
-            )
+            WeatherHeader(weather, weatherHistoryUseCases)
+            WeatherInformationLayout(weather)
+            WeatherSunriseSunsetLayout(weather, weatherHistoryUseCases)
         }
+    }
+}
+
+@Composable
+fun WeatherHeader(
+    weather: Weather,
+    weatherHistoryUseCases: WeatherHistoryUseCases
+) {
+    Column {
+        Text(
+            text = stringResource(
+                R.string.timestamp,
+                weatherHistoryUseCases.convertToDateTimeFormatUseCase(
+                    weather.timestamp,
+                    ConvertToDateTimeFormatUseCase.TIMESTAMP_FORMAT
+                ).orEmpty()
+            ),
+            style = MaterialTheme.typography.caption,
+        )
+        Text(
+            text = stringResource(
+                R.string.weather_location,
+                weather.city,
+                weather.country
+            ),
+            style = MaterialTheme.typography.h6,
+        )
+    }
+}
+
+@Composable
+fun WeatherSunriseSunsetLayout(
+    weather: Weather,
+    weatherHistoryUseCases: WeatherHistoryUseCases
+) {
+    Row {
+        Text(
+            text = stringResource(
+                R.string.sunrise,
+                weatherHistoryUseCases.convertUnixToDateTimeFormatUseCase(
+                    weather.sunrise,
+                    ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
+                ).orEmpty()
+            ),
+            style = MaterialTheme.typography.caption,
+        )
+
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = stringResource(
+                R.string.sunset,
+                weatherHistoryUseCases.convertUnixToDateTimeFormatUseCase(
+                    weather.sunset,
+                    ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
+                ).orEmpty()
+            ),
+            style = MaterialTheme.typography.caption,
+        )
+    }
+}
+
+@Composable
+fun WeatherInformationLayout(weather: Weather) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        AsyncImage(
+            modifier = Modifier.size(48.dp),
+            model = weather.iconUrl,
+            contentDescription = null,
+            error = painterResource(R.drawable.ic_broken_image),
+            contentScale = ContentScale.Crop
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Column(modifier = Modifier.weight(1f, fill = true)) {
+            Text(
+                text = stringResource(R.string.weather_temperature, weather.temperature),
+                style = MaterialTheme.typography.subtitle1,
+            )
+            Text(
+                text = stringResource(
+                    R.string.weather_info,
+                    weather.weatherMain.orEmpty(),
+                    weather.weatherDescription.orEmpty()
+                ),
+                style = MaterialTheme.typography.subtitle1,
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+/**
+ * Test function for current weather as an item list
+ */
+@Preview
+@Composable
+fun WeatherItemLayoutPreview() {
+    MaterialTheme {
+        WeatherItemLayout(
+            Weather(
+                temperature = 9.74,
+                sunrise = 1674746173,
+                sunset = 1674782714,
+                country = "US",
+                city = "Mountain View",
+                weatherMain = "Clear",
+                weatherDescription = "clear sky",
+                weatherIcon = "01n",
+                timestamp = 1674731310324L
+            ),
+            WeatherHistoryUseCases(
+                convertToDateTimeFormatUseCase = ConvertToDateTimeFormatUseCase(),
+                convertUnixToDateTimeFormatUseCase = ConvertUnixToDateTimeFormatUseCase(
+                    convertToDateTimeFormatUseCase = ConvertToDateTimeFormatUseCase()
+                )
+            )
+        )
+    }
+}
+
+/**
+ * Test function for current weather timestamp and location
+ */
+@Preview
+@Composable
+fun WeatherHeaderPreview() {
+    MaterialTheme {
+        WeatherHeader(
+            Weather(
+                temperature = 9.74,
+                sunrise = 1674746173,
+                sunset = 1674782714,
+                country = "US",
+                city = "Mountain View",
+                weatherMain = "Clear",
+                weatherDescription = "clear sky",
+                weatherIcon = "01n",
+                timestamp = 1674731310324L
+            ),
+            WeatherHistoryUseCases(
+                convertToDateTimeFormatUseCase = ConvertToDateTimeFormatUseCase(),
+                convertUnixToDateTimeFormatUseCase = ConvertUnixToDateTimeFormatUseCase(
+                    convertToDateTimeFormatUseCase = ConvertToDateTimeFormatUseCase()
+                )
+            )
+        )
+    }
+}
+
+/**
+ * Test function for current weather temperature, and weather description
+ */
+@Preview
+@Composable
+fun WeatherInformationLayoutPreview() {
+    MaterialTheme {
+        WeatherInformationLayout(
+            Weather(
+                temperature = 9.74,
+                sunrise = 1674746173,
+                sunset = 1674782714,
+                country = "US",
+                city = "Mountain View",
+                weatherMain = "Clear",
+                weatherDescription = "clear sky",
+                weatherIcon = "01n",
+                timestamp = 1674731310324L
+            )
+        )
+    }
+}
+
+/**
+ * Test function for sunrise and sunset of current weather
+ */
+@Preview
+@Composable
+fun WeatherSunriseSunsetLayoutPreview() {
+    MaterialTheme {
+        WeatherSunriseSunsetLayout(
+            Weather(
+                temperature = 9.74,
+                sunrise = 1674746173,
+                sunset = 1674782714,
+                country = "US",
+                city = "Mountain View",
+                weatherMain = "Clear",
+                weatherDescription = "clear sky",
+                weatherIcon = "01n",
+                timestamp = 1674731310324L
+            ),
+            WeatherHistoryUseCases(
+                convertToDateTimeFormatUseCase = ConvertToDateTimeFormatUseCase(),
+                convertUnixToDateTimeFormatUseCase = ConvertUnixToDateTimeFormatUseCase(
+                    convertToDateTimeFormatUseCase = ConvertToDateTimeFormatUseCase()
+                )
+            )
+        )
     }
 }
 
