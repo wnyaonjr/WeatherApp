@@ -1,6 +1,7 @@
 package com.gcash.weatherapp.features.datetime.framework.usecases
 
-import org.junit.Assert
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.`is`
 import org.junit.Test
 
 class ConvertToDateTimeFormatUseCaseTest {
@@ -19,7 +20,7 @@ class ConvertToDateTimeFormatUseCaseTest {
             input = currentTime, pattern = ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
         )
 
-        Assert.assertEquals(expected, actual)
+        assertThat(actual, `is`(expected))
     }
 
     @Test
@@ -32,7 +33,7 @@ class ConvertToDateTimeFormatUseCaseTest {
             input = 1673994284 * 1000L, pattern = ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
         )
 
-        Assert.assertEquals(expected, actual)
+        assertThat(actual, `is`(expected))
     }
 
     @Test
@@ -44,6 +45,6 @@ class ConvertToDateTimeFormatUseCaseTest {
             input = 1674035221 * 1000L, pattern = ConvertToDateTimeFormatUseCase.TIME_FORMAT_AM_PM
         )
 
-        Assert.assertEquals(expected, actual)
+        assertThat(actual, `is`(expected))
     }
 }

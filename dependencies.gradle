@@ -42,4 +42,6 @@ ext {
     jodaTimeVersion = '2.10.4'
 
     glideVersion = '4.11.0'
+
+    hamcrestVersion = '2.2'
 }

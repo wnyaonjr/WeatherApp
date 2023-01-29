@@ -125,4 +125,9 @@ dependencies {
     implementation "com.github.bumptech.glide:annotations:$glideVersion"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+
+
+    // Other dependencies
+    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
 }
